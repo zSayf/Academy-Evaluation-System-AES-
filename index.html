@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="2;url=REDIRECT_URL_PLACEHOLDER">
+    <title>Academy Evaluation System - Redirecting...</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+        }
+        
+        .container {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 30px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #4A5D23;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            color: #a0a0a0;
+            margin-bottom: 30px;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(74, 93, 35, 0.3);
+            border-top-color: #4A5D23;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        .message {
+            font-size: 1.1rem;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+        
+        .redirect-link {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #4A5D23;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .redirect-link:hover {
+            background: #5a7029;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(74, 93, 35, 0.4);
+        }
+        
+        .footer {
+            position: fixed;
+            bottom: 20px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Academy Logo -->
+        <div class="logo">
+            <img src="academy_logo.png" alt="Academy Logo" onerror="this.style.display='none'">
+        </div>
+        
+        <h1>Academy Evaluation System</h1>
+        <p class="subtitle">Egyptian Military Academy - Graduation Projects</p>
+        
+        <!-- Loading Spinner -->
+        <div class="spinner"></div>
+        
+        <p class="message">Redirecting to evaluation portal...</p>
+        
+        <!-- Manual Redirect Link -->
+        <a href="REDIRECT_URL_PLACEHOLDER" class="redirect-link">
+            Click here if not redirected
+        </a>
+    </div>
+    
+    <p class="footer">AES v1.0 - Production Deployment</p>
+    
+    <script>
+        // ============================================
+        // ACTIVE TUNNEL URL - UPDATE THIS VALUE
+        // ============================================
+        // Replace this URL with your current Cloudflare tunnel URL
+        // Example: 'https://your-tunnel.trycloudflare.com'
+        const ACTIVE_TUNNEL_URL = 'REDIRECT_URL_PLACEHOLDER';
+        
+        // Parse URL parameters and redirect
+        function redirect() {
+            const params = new URLSearchParams(window.location.search);
+            const committeeId = params.get('committee_id');
+            
+            let targetUrl = ACTIVE_TUNNEL_URL;
+            
+            // Preserve committee_id parameter if present
+            if (committeeId) {
+                targetUrl += `/?committee_id=${committeeId}`;
+            }
+            
+            // Redirect after a short delay for visual feedback
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 1500);
+        }
+        
+        // Start redirect on page load
+        document.addEventListener('DOMContentLoaded', redirect);
+    </script>
+</body>
+</html>
