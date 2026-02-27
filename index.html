@@ -3,160 +3,383 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="2;url=REDIRECT_URL_PLACEHOLDER">
     <title>Academy Evaluation System - Redirecting...</title>
+    <link rel="icon" type="image/png" href="academy_logo.png">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            background: linear-gradient(135deg, #0a1628 0%, #1a2a4a 50%, #0d1f3c 100%);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #fff;
+            overflow: hidden;
         }
-        
+
+        /* Animated background pattern */
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(74, 93, 35, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(74, 93, 35, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
         .container {
             text-align: center;
-            padding: 40px;
+            padding: 50px;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 0.8s ease-out;
         }
-        
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Logo container with military frame */
+        .logo-frame {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 30px;
+        }
+
+        .logo-frame::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border: 3px solid #4A5D23;
+            border-radius: 15px;
+            animation: pulse-border 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-border {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.02); }
+        }
+
         .logo {
-            width: 120px;
-            height: 120px;
-            margin-bottom: 30px;
-            animation: pulse 2s ease-in-out infinite;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.95);
         }
-        
+
         .logo img {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            border-radius: 10px;
         }
-        
-        h1 {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
+
+        /* Header text */
+        .header {
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
             color: #4A5D23;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(74, 93, 35, 0.3);
         }
-        
-        .subtitle {
+
+        .header .subtitle {
             font-size: 1rem;
-            color: #a0a0a0;
-            margin-bottom: 30px;
+            color: #8a9a6a;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
-        
+
+        .header .division {
+            font-size: 0.85rem;
+            color: #6a7a5a;
+            margin-top: 5px;
+            letter-spacing: 1px;
+        }
+
+        /* Loading spinner - military style */
+        .loader-container {
+            margin: 30px 0;
+        }
+
         .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid rgba(74, 93, 35, 0.3);
-            border-top-color: #4A5D23;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+            width: 60px;
+            height: 60px;
             margin: 0 auto 20px;
+            position: relative;
         }
-        
-        .message {
+
+        .spinner::before,
+        .spinner::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .spinner::before {
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 3px solid rgba(74, 93, 35, 0.2);
+        }
+
+        .spinner::after {
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 3px solid transparent;
+            border-top-color: #4A5D23;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
             font-size: 1.1rem;
-            color: #ccc;
-            margin-bottom: 20px;
+            color: #a0a0a0;
+            animation: pulse-text 1.5s ease-in-out infinite;
         }
-        
+
+        @keyframes pulse-text {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Status indicator */
+        .status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            padding: 12px 25px;
+            background: rgba(74, 93, 35, 0.1);
+            border: 1px solid rgba(74, 93, 35, 0.3);
+            border-radius: 8px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: #4A5D23;
+            border-radius: 50%;
+            animation: blink 1s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .status-text {
+            font-size: 0.9rem;
+            color: #8a9a6a;
+        }
+
+        /* Manual redirect link */
         .redirect-link {
             display: inline-block;
-            padding: 12px 30px;
-            background: #4A5D23;
+            margin-top: 30px;
+            padding: 14px 35px;
+            background: linear-gradient(135deg, #4A5D23 0%, #3a4a1a 100%);
             color: #fff;
             text-decoration: none;
             border-radius: 8px;
             font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
-            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(74, 93, 35, 0.3);
         }
-        
+
         .redirect-link:hover {
-            background: #5a7029;
+            background: linear-gradient(135deg, #5a7029 0%, #4a5a20 100%);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(74, 93, 35, 0.4);
+            box-shadow: 0 6px 20px rgba(74, 93, 35, 0.4);
         }
-        
+
+        /* Footer */
         .footer {
             position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            text-align: center;
+            background: linear-gradient(to top, rgba(10, 22, 40, 0.9), transparent);
+        }
+
+        .footer-text {
+            font-size: 0.75rem;
+            color: #5a6a4a;
+            letter-spacing: 1px;
+        }
+
+        .footer-text span {
+            color: #4A5D23;
+        }
+
+        /* Decorative elements */
+        .corner-decoration {
+            position: fixed;
+            width: 100px;
+            height: 100px;
+            border: 2px solid rgba(74, 93, 35, 0.2);
+            pointer-events: none;
+        }
+
+        .corner-decoration.top-left {
+            top: 20px;
+            left: 20px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .corner-decoration.top-right {
+            top: 20px;
+            right: 20px;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .corner-decoration.bottom-left {
             bottom: 20px;
-            font-size: 0.8rem;
-            color: #666;
+            left: 20px;
+            border-right: none;
+            border-top: none;
         }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+
+        .corner-decoration.bottom-right {
+            bottom: 20px;
+            right: 20px;
+            border-left: none;
+            border-top: none;
         }
     </style>
 </head>
 <body>
+    <!-- Background pattern -->
+    <div class="bg-pattern"></div>
+
+    <!-- Corner decorations -->
+    <div class="corner-decoration top-left"></div>
+    <div class="corner-decoration top-right"></div>
+    <div class="corner-decoration bottom-left"></div>
+    <div class="corner-decoration bottom-right"></div>
+
+    <!-- Main container -->
     <div class="container">
-        <!-- Academy Logo -->
-        <div class="logo">
-            <img src="academy_logo.png" alt="Academy Logo" onerror="this.style.display='none'">
+        <!-- Logo -->
+        <div class="logo-frame">
+            <div class="logo">
+                <img src="academy_logo.png" alt="Academy Logo" onerror="this.parentElement.innerHTML='🏛️'">
+            </div>
         </div>
-        
-        <h1>Academy Evaluation System</h1>
-        <p class="subtitle">Egyptian Military Academy - Graduation Projects</p>
-        
-        <!-- Loading Spinner -->
-        <div class="spinner"></div>
-        
-        <p class="message">Redirecting to evaluation portal...</p>
-        
-        <!-- Manual Redirect Link -->
-        <a href="REDIRECT_URL_PLACEHOLDER" class="redirect-link">
-            Click here if not redirected
+
+        <!-- Header -->
+        <div class="header">
+            <h1>Academy Evaluation System</h1>
+            <p class="subtitle">Egyptian Military Academy</p>
+            <p class="division">Graduation Projects Evaluation Portal</p>
+        </div>
+
+        <!-- Loading spinner -->
+        <div class="loader-container">
+            <div class="spinner"></div>
+            <p class="loading-text">Establishing Secure Connection...</p>
+        </div>
+
+        <!-- Status indicator -->
+        <div class="status">
+            <div class="status-dot"></div>
+            <span class="status-text">Redirecting to Evaluation Portal</span>
+        </div>
+
+        <!-- Manual redirect link (will be updated by JS) -->
+        <a href="#" class="redirect-link" id="manualLink">
+            Click Here to Access Portal
         </a>
     </div>
-    
-    <p class="footer">AES v1.0 - Production Deployment</p>
-    
+
+    <!-- Footer -->
+    <div class="footer">
+        <p class="footer-text">
+            <span>AES</span> v1.0 | Production Deployment | Secure Access Gateway
+        </p>
+    </div>
+
     <script>
         // ============================================
-        // ACTIVE TUNNEL URL - UPDATE THIS VALUE
+        // CONFIGURATION - UPDATE THIS URL
         // ============================================
-        // Replace this URL with your current Cloudflare tunnel URL
+        // Replace with your current Cloudflare/Localtonet tunnel URL
         // Example: 'https://your-tunnel.trycloudflare.com'
-        const ACTIVE_TUNNEL_URL = 'REDIRECT_URL_PLACEHOLDER';
-        
-        // Parse URL parameters and redirect
-        function redirect() {
+        const ACTIVE_TUNNEL_URL = 'http://localhost:8000';
+
+        // ============================================
+        // REDIRECT LOGIC
+        // ============================================
+        (function() {
+            // Parse URL parameters
             const params = new URLSearchParams(window.location.search);
-            const committeeId = params.get('committee_id');
             
-            let targetUrl = ACTIVE_TUNNEL_URL;
+            // Support both 'id' and 'committee_id' parameters
+            const committeeId = params.get('id') || params.get('committee_id');
             
-            // Preserve committee_id parameter if present
+            // Build redirect URL
+            let redirectUrl;
             if (committeeId) {
-                targetUrl += `/?committee_id=${committeeId}`;
+                // Redirect to committee login with ID
+                redirectUrl = `${ACTIVE_TUNNEL_URL}/committee/login?id=${committeeId}`;
+            } else {
+                // No committee ID - redirect to main page
+                redirectUrl = `${ACTIVE_TUNNEL_URL}/`;
             }
-            
-            // Redirect after a short delay for visual feedback
-            setTimeout(() => {
-                window.location.href = targetUrl;
-            }, 1500);
-        }
-        
-        // Start redirect on page load
-        document.addEventListener('DOMContentLoaded', redirect);
+
+            // Update manual link
+            const manualLink = document.getElementById('manualLink');
+            if (manualLink) {
+                manualLink.href = redirectUrl;
+            }
+
+            console.log('AES Redirector');
+            console.log('Tunnel URL:', ACTIVE_TUNNEL_URL);
+            console.log('Committee ID:', committeeId || 'Not specified');
+            console.log('Redirect URL:', redirectUrl);
+
+            // Auto-redirect after delay
+            setTimeout(function() {
+                window.location.href = redirectUrl;
+            }, 2000);
+        })();
     </script>
 </body>
 </html>
