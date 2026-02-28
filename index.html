@@ -341,28 +341,14 @@
         // CONFIGURATION - UPDATE THIS URL
         // ============================================
         // Replace with your current Cloudflare/Localtonet tunnel URL
-        // Example: 'https://your-tunnel.trycloudflare.com'
         const ACTIVE_TUNNEL_URL = 'https://pray-particularly-alabama-kinds.trycloudflare.com';
 
         // ============================================
-        // REDIRECT LOGIC
+        // REDIRECT LOGIC - Redirect to main login page
         // ============================================
         (function() {
-            // Parse URL parameters
-            const params = new URLSearchParams(window.location.search);
-            
-            // Support both 'id' and 'committee_id' parameters
-            const committeeId = params.get('id') || params.get('committee_id');
-            
-            // Build redirect URL
-            let redirectUrl;
-            if (committeeId) {
-                // Redirect to committee login with ID
-                redirectUrl = `${ACTIVE_TUNNEL_URL}/committee/login?id=${committeeId}`;
-            } else {
-                // No committee ID - redirect to main page
-                redirectUrl = `${ACTIVE_TUNNEL_URL}/`;
-            }
+            // Redirect directly to the tunnel URL (PIN login page)
+            const redirectUrl = ACTIVE_TUNNEL_URL + '/';
 
             // Update manual link
             const manualLink = document.getElementById('manualLink');
@@ -371,9 +357,7 @@
             }
 
             console.log('AES Redirector');
-            console.log('Tunnel URL:', ACTIVE_TUNNEL_URL);
-            console.log('Committee ID:', committeeId || 'Not specified');
-            console.log('Redirect URL:', redirectUrl);
+            console.log('Redirecting to:', redirectUrl);
 
             // Auto-redirect after delay
             setTimeout(function() {
